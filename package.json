@@ -1,7 +1,7 @@
 {
   "name": "@appjumpstart/launch",
   "version": "1.0.0",
-  "description": "A simple process manager used to run a Node.js application in detached mode",
+  "description": "A simple process manager used to run a Node.js application in the background",
   "main": "index.js",
   "bin": {
     "launch": "index.js"
