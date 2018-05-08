@@ -31,6 +31,8 @@ Kill the process:
   💥 Killed server on process 40765!
 ```
 
+## Acknowledgement
+
 All dependencies created by the amazing [Sindre Sorhus](https://github.com/sindresorhus).
 
 &nbsp;
