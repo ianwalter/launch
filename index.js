@@ -48,7 +48,8 @@ async function launch () {
         // Inform the user that the process has been killed.
         console.log(red(`\n  💥 Killed ${target} on process ${pid}!`))
       } else {
-        console.log(red('\n  🚫 No process to kill.'))
+        console.error(red('\n  🚫 No process to kill.'))
+        process.exit(1)
       }
     } else {
       // Set the target to a file specified on the command line or the parent's
@@ -83,6 +84,7 @@ async function launch () {
     }
   } catch (err) {
     console.error(err)
+    process.exit(1)
   }
 }
 

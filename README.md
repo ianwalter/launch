@@ -37,7 +37,12 @@ All dependencies created by the amazing [Sindre Sorhus](https://github.com/sindr
 
 &nbsp;
 
-ISC &copy; [Ian Walter](https://iankwalter.com)
+<a href="https://github.com/appjumpstart">
+  <img
+    alt="AppJumpstart"
+    src="https://appjumpstart.nyc3.digitaloceanspaces.com/assets/appjumpstart-white.jpg"
+    height="50">
+</a>
 
 [npm-image]: https://img.shields.io/npm/v/@appjumpstart/launch.svg
 [npm-url]: https://www.npmjs.com/package/@appjumpstart/launch
