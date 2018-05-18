@@ -40,7 +40,7 @@ All dependencies created by the amazing [Sindre Sorhus](https://github.com/sindr
 <a href="https://github.com/appjumpstart">
   <img
     alt="AppJumpstart"
-    src="https://appjumpstart.nyc3.digitaloceanspaces.com/assets/appjumpstart-white.jpg"
+    src="https://appjumpstart.nyc3.digitaloceanspaces.com/assets/appjumpstart-transparent.png"
     height="50">
 </a>
 
