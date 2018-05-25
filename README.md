@@ -17,7 +17,11 @@ running server, and then killing the server when the test suite has finished.
 
 ## Usage
 
-Launch the process:
+```fish
+❯ launch <file|command?>
+```
+
+Launch the default command (main or scripts.start in package.json):
 ```fish
 ❯ npx launch
 
