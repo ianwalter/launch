@@ -2,23 +2,26 @@
 > A simple process manager used to run a Node.js application in the background
 
 [![Npm page][npm-image]][npm-url]
+[![appjumpstart chat][gitter-image]][gitter-url]
 
 ## About
 
-`launch` is useful when you want to run a long-running Node.js process in detached mode (background), want the output from the process directed to a log file, and want to be able to easily kill the process at a later stage. A common
+`launch` is useful when you want to run a long-running Node.js process in
+detached mode (background), want the output from the process directed to a log
+file, and want to be able to easily kill the process at a later stage. A common
 use case would be running a Node.js server, running a test suite against the
 running server, and then killing the server when the test suite has finished.
 
 ## Installation
 
-```fish
-❯ npm install @appjumpstart/launch --save
+```
+npm install @appjumpstart/launch --save
 ```
 
 ## Usage
 
-```fish
-❯ launch <file|command?>
+```
+launch <file|command?>
 ```
 
 Launch the default command (main or scripts.start in package.json):
@@ -37,7 +40,8 @@ Kill the process:
 
 ## Acknowledgement
 
-All dependencies created by the amazing [Sindre Sorhus](https://github.com/sindresorhus).
+All dependencies created by the amazing
+[Sindre Sorhus](https://github.com/sindresorhus).
 
 &nbsp;
 
@@ -50,3 +54,5 @@ All dependencies created by the amazing [Sindre Sorhus](https://github.com/sindr
 
 [npm-image]: https://img.shields.io/npm/v/@appjumpstart/launch.svg
 [npm-url]: https://www.npmjs.com/package/@appjumpstart/launch
+[gitter-image]: https://img.shields.io/gitter/room/appjumpstart/appjumpstart.svg
+[gitter-url]: https://gitter.im/appjumpstart

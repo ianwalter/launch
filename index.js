@@ -20,7 +20,7 @@ async function launch () {
     // Create a command-line interface to control the application.
     const cli = meow(`
       Usage
-        ❯ launch <file?>
+        launch <file?>
 
       Option
         --kill, -k  Kill process
