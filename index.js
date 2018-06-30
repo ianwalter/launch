@@ -15,6 +15,11 @@ const config = new Conf()
 
 const debug = debuglog('launch')
 
+function getShortName (pkg) {
+  const parts = pkg.name.split('/')
+  return parts.length ? parts[parts.length - 1] : null
+}
+
 async function launch () {
   try {
     // Create a command-line interface to control the application.
@@ -39,7 +44,7 @@ async function launch () {
 
     // Determine the name associated with the process from the package.json
     // file or fallback to the CLI input.
-    const name = pkg.name || cli.input[0]
+    const name = getShortName(pkg) || cli.input[0]
 
     if (cli.flags.kill) {
       // Get the process information by the paren'ts project name.
@@ -119,4 +124,8 @@ async function launch () {
   }
 }
 
-launch()
+if (module.parent) {
+  module.exports = { getShortName, launch }
+} else {
+  launch()
+}

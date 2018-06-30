@@ -14,25 +14,25 @@ running server, and then killing the server when the test suite has finished.
 
 ## Installation
 
-```
+```console
 npm install @appjumpstart/launch --save
 ```
 
 ## Usage
 
-```
+```console
 launch <file|command?>
 ```
 
 Launch the default command (main or scripts.start in package.json):
-```fish
+```console
 ❯ npx launch
 
   🚀 Launched server on process 40765!
 ```
 
 Kill the process:
-```fish
+```console
 ❯ npx launch --kill
 
   💥 Killed server on process 40765!
