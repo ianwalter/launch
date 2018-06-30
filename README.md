@@ -2,6 +2,7 @@
 > A simple process manager used to run a Node.js application in the background
 
 [![Npm page][npm-image]][npm-url]
+[![Build status][build-image]][build-url]
 [![appjumpstart chat][gitter-image]][gitter-url]
 
 ## About
@@ -54,5 +55,8 @@ All dependencies created by the amazing
 
 [npm-image]: https://img.shields.io/npm/v/@appjumpstart/launch.svg
 [npm-url]: https://www.npmjs.com/package/@appjumpstart/launch
+[build-image]: https://travis-ci.com/appjumpstart/launch.svg?branch=master
+[build-url]: https://travis-ci.com/appjumpstart/launch
 [gitter-image]: https://img.shields.io/gitter/room/appjumpstart/appjumpstart.svg
 [gitter-url]: https://gitter.im/appjumpstart
+
