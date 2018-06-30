@@ -1,6 +1,6 @@
 {
   "name": "@appjumpstart/launch",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple process manager used to run a Node.js application in the background",
   "main": "index.js",
   "bin": {
