@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { dirname, join, basename, extname } = require('path')
-const { createWriteStream, lstatSync } = require('fs')
+const { createWriteStream, lstatSync, readFileSync } = require('fs')
 const { debuglog } = require('util')
 
 const execa = require('execa')
@@ -8,7 +8,8 @@ const meow = require('meow')
 const Conf = require('conf')
 const readPkgUp = require('read-pkg-up')
 const fkill = require('fkill')
-const { green, red } = require('chalk')
+const { green, red, cyan } = require('chalk')
+const processExists = require('process-exists')
 
 // Create the config instance used to save process information.
 const config = new Conf()
@@ -46,19 +47,53 @@ async function launch () {
     // file or fallback to the CLI input.
     const name = getShortName(pkg) || cli.input[0]
 
+    // Allow the path to the log file to be customized in the project's
+    // package.json under the "launch" key.
+    const { logPath = join(dirname(path), `${name}.log`) } = pkg.launch || {}
+
     if (cli.flags.kill) {
       // Get the process information by the paren'ts project name.
       const { target, pid } = config.get(name) || {}
 
       if (pid) {
-        // Kill the process.
-        await fkill(pid)
+        let timeElapsed = 0
+        let checkInterval = setInterval(async () => {
+          const launchProcessExists = await processExists(pid)
+          const timeout = timeElapsed >= 4000 // 4 seconds
 
-        // Delete the process information.
-        config.delete(name)
+          if (launchProcessExists || timeout) {
+            // Stop the check process.
+            clearInterval(checkInterval)
 
-        // Inform the user that the process has been killed.
-        console.log(red(`\n  💥 Killed ${target} on process ${pid}!`))
+            // Delete the process information.
+            config.delete(name)
+          }
+
+          if (launchProcessExists) {
+            // Kill the process.
+            await fkill(pid)
+
+            // Inform the user that the process has been killed.
+            console.log(red(`\n  💥 Killed ${target} on process ${pid}!`))
+          } else if (timeout) {
+            // Inform the user that the process was not found.
+            console.error(red(`\n  🚫 Process ${pid} not found after 4s.`))
+
+            // Output the log contents to make debugging easier when the process
+            // exits immediately.
+            const log = readFileSync(logPath, 'utf8')
+              .split('\n')
+              .map(line => `     ${line}`)
+              .join('\n')
+            console.log(cyan(`\n  📝 ${logPath}\n\n${log}`))
+
+            // Exit with error code.
+            process.exit(1)
+          } else {
+            //
+            timeElapsed += 100
+          }
+        }, 100)
       } else {
         console.error(red('\n  🚫 No process to kill.'))
         process.exit(1)
@@ -68,15 +103,8 @@ async function launch () {
       // package.json main value.
       const target = cli.input[0] || pkg.main || null
 
-      // Allow the log's name and path to be customized in the project's
-      // package.json under the "launch" key.
-      const {
-        logName = `${name}.log`,
-        logPath = dirname(path)
-      } = pkg.launch || {}
-
       // Create a WriteStream for the log file and wait for it to be opened.
-      const logStream = createWriteStream(join(logPath, logName))
+      const logStream = createWriteStream(logPath)
       logStream.on('open', () => {
         // Ignore stdin and direct stdout and stderr to write to the log stream.
         const opts = { detached: true, stdio: ['ignore', logStream, logStream] }
