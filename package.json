@@ -17,6 +17,10 @@
   ],
   "author": "Ian Walter <public@iankwalter.com> (https://iankwalter.com)",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:appjumpstart/launch.git"
+  },
   "dependencies": {
     "chalk": "^2.4.1",
     "conf": "^1.4.0",
