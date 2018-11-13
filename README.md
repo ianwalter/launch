@@ -44,6 +44,10 @@ Kill the process:
 All dependencies created by the amazing
 [Sindre Sorhus](https://github.com/sindresorhus).
 
+## License
+
+Apache 2.0 with Commons Clause - See [LICENSE][licenseUrl]
+
 &nbsp;
 
 <a href="https://github.com/appjumpstart">
@@ -59,4 +63,5 @@ All dependencies created by the amazing
 [build-url]: https://travis-ci.com/appjumpstart/launch
 [gitter-image]: https://img.shields.io/gitter/room/appjumpstart/appjumpstart.svg
 [gitter-url]: https://gitter.im/appjumpstart
+[licenseUrl]: https://github.com/appjumpstart/launch/blob/master/LICENSE
 
