@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { dirname, join, basename, extname } = require('path')
+const { dirname, join } = require('path')
 const { createWriteStream, lstatSync, readFileSync } = require('fs')
 const { debuglog } = require('util')
 
