@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint index.js test",
-    "test": "ava"
+    "test": "env TEST_SERVER_PORT=9876 ava"
   },
   "keywords": [
     "process",
@@ -23,6 +23,7 @@
     "url": "git@github.com:appjumpstart/launch.git"
   },
   "dependencies": {
+    "@ianwalter/npm-short-name": "^1.0.0",
     "chalk": "^2.4.1",
     "conf": "^2.0.0",
     "execa": "^1.0.0",
@@ -33,8 +34,8 @@
   },
   "devDependencies": {
     "@ianwalter/eslint-config": "^1.1.0",
-    "@ianwalter/execa-helper": "^1.0.0",
-    "@ianwalter/test-server": "^1.2.0",
+    "@ianwalter/execa-helper": "^1.0.1",
+    "@ianwalter/test-server": "^1.3.0",
     "ava": "^1.2.0",
     "got": "^9.6.0",
     "np": "^4.0.2"
