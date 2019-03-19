@@ -28,15 +28,13 @@ launch <file|command?>
 Launch the default command (main or scripts.start in package.json):
 ```console
 ❯ npx launch
-
-  🚀 Launched server on process 40765!
+🚀 Launched server on process 40765!
 ```
 
 Kill the process:
 ```console
 ❯ npx launch --kill
-
-  💥 Killed server on process 40765!
+💥 Killed server on process 40765!
 ```
 
 ## Acknowledgement

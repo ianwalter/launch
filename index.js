@@ -74,10 +74,10 @@ async function launch () {
             await fkill(pid)
 
             // Inform the user that the process has been killed.
-            console.log(red(`\n  💥 Killed ${target} on process ${pid}!`))
+            console.log(red(`💥 Killed ${target} on process ${pid}!`))
           } else if (timeout) {
             // Inform the user that the process was not found.
-            console.error(red(`\n  🚫 Process ${pid} not found after 4s.`))
+            console.error(red(`🚫 Process ${pid} not found after 4s.`))
 
             // Output the log contents to make debugging easier when the process
             // exits immediately.
@@ -85,7 +85,7 @@ async function launch () {
               .split('\n')
               .map(line => `     ${line}`)
               .join('\n')
-            console.log(cyan(`\n  📝 ${logPath}\n\n${log}`))
+            console.log(cyan(`📝 ${logPath}\n\n${log}`))
 
             // Exit with error code.
             process.exit(1)
@@ -95,7 +95,7 @@ async function launch () {
           }
         }, 100)
       } else {
-        console.error(red('\n  🚫 No process to kill.'))
+        console.error(red('🚫 No process to kill.'))
         process.exit(1)
       }
     } else {
@@ -127,7 +127,7 @@ async function launch () {
             params = start
           } else {
             console.error(err)
-            console.error(red(`\n  🤔 Can't determine what to launch.`))
+            console.error(red(`🤔 Can't determine what to launch.`))
             process.exit(1)
           }
         }
@@ -143,7 +143,7 @@ async function launch () {
         config.set(name, { target, pid: proc.pid })
 
         // Inform the user that the process has been launched.
-        console.log(green(`\n  🚀 Launched ${name} on process ${proc.pid}!`))
+        console.log(green(`🚀 Launched ${name} on process ${proc.pid}!`))
       })
     }
   } catch (err) {
