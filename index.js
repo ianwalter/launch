@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { dirname, join } = require('path')
+const { dirname, basename, resolve } = require('path')
 const { createWriteStream, lstatSync, readFileSync } = require('fs')
 const { debuglog } = require('util')
 
@@ -10,55 +10,69 @@ const readPkgUp = require('read-pkg-up')
 const fkill = require('fkill')
 const { green, red, cyan } = require('chalk')
 const processExists = require('process-exists')
+const npmShortName = require('@ianwalter/npm-short-name')
 
 // Create the config instance used to save process information.
 const config = new Conf()
 
+// Create a launch-namespaced debug logger.
 const debug = debuglog('launch')
-
-function getShortName (pkg) {
-  const parts = pkg.name.split('/')
-  return parts.length ? parts[parts.length - 1] : null
-}
 
 async function launch () {
   try {
     // Create a command-line interface to control the application.
-    const cli = meow(`
-      Usage
-        launch <file?>
+    const cli = meow(
+      `
+        Usage
+          launch <file?>
 
-      Option
-        --kill, -k  Kill process
+        Option
+          --name, -n  Process name
+          --kill, -k  Kill process
+          --pid, -p   Output process ID
 
-      Example
-        ❯ npx launch
-        🚀 Launched server on process 12856!
-    `, {
-      flags: {
-        kill: { type: 'boolean', alias: 'k' }
+        Example
+          ❯ npx launch
+          🚀 Launched server on process 12856!
+      `,
+      {
+        flags: {
+          name: { type: 'string', alias: 'n' },
+          kill: { type: 'string', alias: 'k' },
+          pid: { type: 'boolean', alias: 'p' }
+        }
       }
-    })
+    )
 
     // Get parent's package.json.
-    const { pkg, path } = await readPkgUp()
+    const {
+      pkg = {},
+      path = process.cwd()
+    } = await readPkgUp()
 
     // Determine the name associated with the process from the package.json
     // file or fallback to the CLI input.
-    const name = getShortName(pkg) || cli.input[0]
+    const name = cli.flags.name ||
+      npmShortName(pkg.name) ||
+      basename(cli.input[0])
 
     // Allow the path to the log file to be customized in the project's
-    // package.json under the "launch" key.
-    const { logPath = join(dirname(path), `${name}.log`) } = pkg.launch || {}
+    // package.json under the "launchLog" key.
+    const logPath = resolve(pkg.launchLog || dirname(path), `${name}.log`)
 
-    if (cli.flags.kill) {
+    let info
+    if (cli.flags.pid || cli.flags.kill !== undefined) {
       // Get the process information by the paren'ts project name.
-      const { target, pid } = config.get(name) || {}
+      info = config.get(name) || {}
+    }
 
-      if (pid) {
+    if (cli.flags.pid) {
+      console.log(info.pid)
+    } else if (cli.flags.kill !== undefined) {
+      if (info.pid) {
         let timeElapsed = 0
         let checkInterval = setInterval(async () => {
-          const launchProcessExists = await processExists(pid)
+          const launchProcessExists = await processExists(info.pid)
           const timeout = timeElapsed >= 4000 // 4 seconds
 
           if (launchProcessExists || timeout) {
@@ -71,13 +85,13 @@ async function launch () {
 
           if (launchProcessExists) {
             // Kill the process.
-            await fkill(pid)
+            await fkill(info.pid)
 
             // Inform the user that the process has been killed.
-            console.log(red(`\n  💥 Killed ${target} on process ${pid}!`))
+            console.log(red(`💥 Killed ${info.target} on process ${info.pid}!`))
           } else if (timeout) {
             // Inform the user that the process was not found.
-            console.error(red(`\n  🚫 Process ${pid} not found after 4s.`))
+            console.error(red(`🚫 Process ${info.pid} not found after 4s.`))
 
             // Output the log contents to make debugging easier when the process
             // exits immediately.
@@ -85,7 +99,7 @@ async function launch () {
               .split('\n')
               .map(line => `     ${line}`)
               .join('\n')
-            console.log(cyan(`\n  📝 ${logPath}\n\n${log}`))
+            console.log(cyan(`📝 ${logPath}\n\n${log}`))
 
             // Exit with error code.
             process.exit(1)
@@ -94,8 +108,8 @@ async function launch () {
             timeElapsed += 100
           }
         }, 100)
-      } else {
-        console.error(red('\n  🚫 No process to kill.'))
+      } else if (cli.flags.kill) {
+        console.error(red('🚫 No process to kill.'))
         process.exit(1)
       }
     } else {
@@ -127,7 +141,7 @@ async function launch () {
             params = start
           } else {
             console.error(err)
-            console.error(red(`\n  🤔 Can't determine what to launch.`))
+            console.error(red(`🤔 Can't determine what to launch.`))
             process.exit(1)
           }
         }
@@ -143,7 +157,7 @@ async function launch () {
         config.set(name, { target, pid: proc.pid })
 
         // Inform the user that the process has been launched.
-        console.log(green(`\n  🚀 Launched ${name} on process ${proc.pid}!`))
+        console.log(green(`🚀 Launched ${name} on process ${proc.pid}!`))
       })
     }
   } catch (err) {
@@ -153,7 +167,7 @@ async function launch () {
 }
 
 if (module.parent) {
-  module.exports = { getShortName, launch }
+  module.exports = { launch }
 } else {
   launch()
 }
