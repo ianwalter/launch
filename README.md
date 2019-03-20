@@ -16,7 +16,7 @@ running server, and then killing the server when the test suite has finished.
 ## Installation
 
 ```console
-npm install @appjumpstart/launch --save
+yarn add @appjumpstart/launch --dev
 ```
 
 ## Usage
