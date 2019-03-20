@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint index.js test",
-    "test": "env TEST_SERVER_PORT=9876 ava"
+    "test": "ava -s"
   },
   "keywords": [
     "process",
@@ -45,5 +45,6 @@
     "extends": [
       "@ianwalter/eslint-config"
     ]
-  }
+  },
+  "launchLog": "tmp"
 }

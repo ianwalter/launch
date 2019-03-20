@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { dirname, join, basename } = require('path')
+const { dirname, basename, resolve } = require('path')
 const { createWriteStream, lstatSync, readFileSync } = require('fs')
 const { debuglog } = require('util')
 
@@ -57,8 +57,8 @@ async function launch () {
       basename(cli.input[0])
 
     // Allow the path to the log file to be customized in the project's
-    // package.json under the "launch" key.
-    const { logPath = join(dirname(path), `${name}.log`) } = pkg.launch || {}
+    // package.json under the "launchLog" key.
+    const logPath = resolve(pkg.launchLog || dirname(path), `${name}.log`)
 
     let info
     if (cli.flags.pid || cli.flags.kill !== undefined) {
