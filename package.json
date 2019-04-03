@@ -25,7 +25,7 @@
   "dependencies": {
     "@ianwalter/npm-short-name": "^1.0.0",
     "chalk": "^2.4.1",
-    "conf": "^3.0.0",
+    "conf": "^4.0.0",
     "execa": "^1.0.0",
     "fkill": "^6.0.0",
     "meow": "^5.0.0",
